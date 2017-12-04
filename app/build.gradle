@@ -78,4 +78,6 @@ dependencies {
     releaseCompile rootProject.ext.dependencies["blockcanary-no-op"]
     debugCompile rootProject.ext.dependencies["leakcanary-android"]
     releaseCompile rootProject.ext.dependencies["leakcanary-android-no-op"]
+
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
 }

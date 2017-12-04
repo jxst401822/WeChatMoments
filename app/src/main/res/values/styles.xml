@@ -14,8 +14,7 @@
         <item name="colorControlNormal">@android:color/white</item>
     </style>
 
-    <style name="TextAppearance.ExpandedTitle"
-        parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <style name="TextAppearance.ExpandedTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">26sp</item>
     </style>
 
@@ -26,6 +25,13 @@
     <style name="MainTheme" parent="AppTheme">
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:windowIsTranslucent">false</item>
+    </style>
+
+    <style name="bg">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/bg</item>
+        <item name="android:orientation">vertical</item>
     </style>
 
 </resources>

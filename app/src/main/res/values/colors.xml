@@ -6,4 +6,5 @@
     <color name="colorBackground">#EEEEEE</color>
 
     <color name="toast_bg">#dddfe0</color>
+    <color name="bg">#F0F0F0</color>
 </resources>

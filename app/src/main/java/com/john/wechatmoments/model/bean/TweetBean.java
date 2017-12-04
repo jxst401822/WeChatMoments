@@ -1,5 +1,7 @@
 package com.john.wechatmoments.model.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -19,6 +21,25 @@ public class TweetBean {
     private SenderBean sender;
     private List<ImagesBean> images;
     private List<CommentsBean> comments;
+    private String error;
+    @SerializedName("unknown error")
+    private String _$UnknownError287; // FIXME check this code
+
+    public String get_$UnknownError287() {
+        return _$UnknownError287;
+    }
+
+    public void set_$UnknownError287(String _$UnknownError287) {
+        this._$UnknownError287 = _$UnknownError287;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
     public String getContent() {
         return content;

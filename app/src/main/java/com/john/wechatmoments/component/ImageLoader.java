@@ -2,11 +2,14 @@ package com.john.wechatmoments.component;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.john.wechatmoments.app.App;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by John on 17/12/4.
@@ -33,5 +36,19 @@ public class ImageLoader {
         if(!activity.isFinishing()) {
             Glide.with(activity).load(url).crossFade().skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(iv);
         }
+    }
+
+    public static Bitmap getBitmap(Context context, String url, ImageView iv) {    //不缓存，全部从网络加载
+        Bitmap bitmap = null;
+        if(!App.getAppComponent().preferencesHelper().getNoImageState()) {
+            try {
+                bitmap = Glide.with(context).load(url).asBitmap().centerCrop().into(500, 500).get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return bitmap;
     }
 }
