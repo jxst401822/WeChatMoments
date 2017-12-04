@@ -9,6 +9,14 @@ import com.john.wechatmoments.component.ImageLoader;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * 描述：
  * 作者：HMY
@@ -27,24 +35,34 @@ public class NineGridTestLayout extends NineGridLayout {
     }
 
     @Override
-    protected boolean displayOneImage(final RatioImageView imageView, String url, final int parentWidth) {
-        Bitmap bitmap = ImageLoader.getBitmap(mContext, url, imageView);
-        int w = bitmap.getWidth();
-        int h = bitmap.getHeight();
+    protected boolean displayOneImage(final RatioImageView imageView, final String url, final int parentWidth) {
+        Observable.create(new ObservableOnSubscribe<Bitmap>() {
+            @Override
+            public void subscribe(ObservableEmitter<Bitmap> emitter) throws Exception {
+                Bitmap bitmap = ImageLoader.getBitmap(mContext, url, imageView);
+                emitter.onNext(bitmap);
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Bitmap>() {
+            @Override
+            public void accept(@NonNull Bitmap bitmap) throws Exception {
+                int w = bitmap.getWidth();
+                int h = bitmap.getHeight();
 
-        int newW;
-        int newH;
-        if (h > w * MAX_W_H_RATIO) {//h:w = 5:3
-            newW = parentWidth / 2;
-            newH = newW * 5 / 3;
-        } else if (h < w) {//h:w = 2:3
-            newW = parentWidth * 2 / 3;
-            newH = newW * 2 / 3;
-        } else {//newH:h = newW :w
-            newW = parentWidth / 2;
-            newH = h * newW / w;
-        }
-        setOneImageLayoutParams(imageView, newW, newH);
+                int newW;
+                int newH;
+                if (h > w * MAX_W_H_RATIO) {//h:w = 5:3
+                    newW = parentWidth / 2;
+                    newH = newW * 5 / 3;
+                } else if (h < w) {//h:w = 2:3
+                    newW = parentWidth * 2 / 3;
+                    newH = newW * 2 / 3;
+                } else {//newH:h = newW :w
+                    newW = parentWidth / 2;
+                    newH = h * newW / w;
+                }
+                setOneImageLayoutParams(imageView, newW, newH);
+            }
+        });
         return false;
     }
 

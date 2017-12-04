@@ -98,4 +98,6 @@ public interface DBHelper {
     List<RealmObject> tQueryListSort(Class<? extends RealmObject> clazz, String sortField, boolean isDesc);
 
     List<RealmObject> tMultiQuery(Class<? extends RealmObject> clazz, String field, List<Integer> list);
+
+    List<RealmObject> tQueryAll(Class<? extends RealmObject> clazz);
 }

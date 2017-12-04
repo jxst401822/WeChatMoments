@@ -1,6 +1,7 @@
 package com.john.wechatmoments.presenter;
 
 import com.google.gson.Gson;
+import com.john.wechatmoments.app.Constants;
 import com.john.wechatmoments.base.RxPresenter;
 import com.john.wechatmoments.base.contract.MainContract;
 import com.john.wechatmoments.model.bean.TweetBean;
@@ -8,11 +9,15 @@ import com.john.wechatmoments.model.db.RealmHelper;
 import com.john.wechatmoments.model.http.RetrofitHelper;
 import com.john.wechatmoments.model.prefs.ImplPreferencesHelper;
 import com.john.wechatmoments.model.prefs.PreferencesHelper;
+import com.john.wechatmoments.util.RxUtil;
+import com.john.wechatmoments.widget.CommonSubscriber;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.realm.RealmObject;
 
 /**
  * Created by John on 2017/12/4.
@@ -72,15 +77,47 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
 
 
     @Override
-    public void loadMoreData() {
-
+    public void loadMoreData(int count) {
+        List<TweetBean> tweetBeans = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            if (Constants.position == Constants.tweetBeanList.size()) {
+                break;
+            }
+            tweetBeans.add(Constants.tweetBeanList.get(Constants.position));
+            Constants.position++;
+        }
+        mView.showLoadMoreData(tweetBeans);
     }
 
     @Override
-    public void refreshData() {
-        List<TweetBean> list = new ArrayList<>();
-        TweetBean tweetBean = new Gson().fromJson(json,TweetBean.class);
-        list.add(tweetBean);
-        mView.showRefreshData(list);
+    public void refreshData(final int count) {
+        addSubscribe(mRetrofitHelper.getTweets("jsmith")
+                .compose(RxUtil.<List<TweetBean>>handleResult())
+                .compose(RxUtil.<List<TweetBean>>rxSchedulerHelper())
+                .subscribeWith(new CommonSubscriber<List<TweetBean>>(mView) {
+                    @Override
+                    public void onNext(List<TweetBean> list) {
+                        List<TweetBean> errorTweetBeans = new ArrayList<>();
+                        for (TweetBean tweetBean : list) {
+                            if (tweetBean.getError() != null || tweetBean.getContent() == null || tweetBean.get_$UnknownError287() != null) {
+                                errorTweetBeans.add(tweetBean);
+                            }
+                        }
+                        list.removeAll(errorTweetBeans);
+                        Constants.tweetBeanList.addAll(list);
+                        mReferencesHelper.setLoginId("jsmith");
+                        List<TweetBean> tweetBeans = new ArrayList<>();
+                        for (int i = 0; i < count; i++) {
+                            if (Constants.position == Constants.tweetBeanList.size() - 1) {
+                                break;
+                            }
+                            tweetBeans.add(Constants.tweetBeanList.get(Constants.position));
+                            Constants.position++;
+                        }
+                        mView.showRefreshData(tweetBeans);
+                    }
+                })
+        );
+
     }
 }

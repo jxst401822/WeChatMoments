@@ -17,15 +17,15 @@ public interface MainContract {
 
         void showRefreshData(List<TweetBean> list);
 
-        void showLoadMoreData();
+        void showLoadMoreData(List<TweetBean> list);
 
     }
 
     interface Presenter extends BasePresenter<View> {
 
-        void loadMoreData();
+        void loadMoreData(int i);
 
-        void refreshData();
+        void refreshData(int i);
 
     }
 }

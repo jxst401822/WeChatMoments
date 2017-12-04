@@ -31,12 +31,14 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<TweetBean, BaseViewHo
         NineGridTestLayout layout = helper.getView(R.id.layout_nine_grid);
         layout.setIsShowAll(true);
         layout.setUrlList(getUrlList(item.getImages()));
-        mMomentAdapter = new MomentAdapter();
-        mMomentRecyclerView = helper.getView(R.id.rv_moments);
-        mMomentRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mMomentRecyclerView.setAdapter(mMomentAdapter);
-        mMomentAdapter.addData(item.getComments());
-        mMomentAdapter.notifyDataSetChanged();
+        if(item.getComments() != null){
+            mMomentAdapter = new MomentAdapter();
+            mMomentRecyclerView = helper.getView(R.id.rv_moments);
+            mMomentRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+            mMomentRecyclerView.setAdapter(mMomentAdapter);
+            mMomentAdapter.addData(item.getComments());
+            mMomentAdapter.notifyDataSetChanged();
+        }
     }
 
     private List<String> getUrlList(List<ImagesBean> list) {

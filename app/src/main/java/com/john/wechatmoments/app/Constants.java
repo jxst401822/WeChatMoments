@@ -2,9 +2,12 @@ package com.john.wechatmoments.app;
 
 import android.os.Environment;
 
+import com.john.wechatmoments.model.bean.TweetBean;
 import com.john.wechatmoments.model.bean.UserBean;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by John on 2017/12/3.
@@ -21,6 +24,8 @@ public class Constants {
 
     public static final String SP_AUTO_CACHE = "auto_cache";
 
+    public static final String SP_LOGIN_ID = "login_id";
+
     //================= PATH ====================
 
     public static final String PATH_DATA = App.getInstance().getCacheDir().getAbsolutePath() + File.separator + "data";
@@ -31,4 +36,7 @@ public class Constants {
 
     //================= UserBean ====================
     public static UserBean userBean;
+    public static List<TweetBean> tweetBeanList = new ArrayList<>();
+    public static int position = 0;
+
 }

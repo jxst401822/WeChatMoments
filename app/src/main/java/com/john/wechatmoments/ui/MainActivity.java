@@ -21,6 +21,7 @@ import com.john.wechatmoments.model.bean.TweetBean;
 import com.john.wechatmoments.model.bean.UserBean;
 import com.john.wechatmoments.presenter.MainPresenter;
 import com.john.wechatmoments.ui.adapter.PullToRefreshAdapter;
+import com.john.wechatmoments.util.ToastUtil;
 
 import java.util.List;
 
@@ -48,19 +49,28 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         initAdapter();
         addHeadView(Constants.userBean);
         initRefreshLayout();
-        mSwipeRefreshLayout.setRefreshing(true);
-        mPresenter.refreshData();
+        mSwipeRefreshLayout.setRefreshing(false);
+        mPresenter.refreshData(5);
     }
 
     @Override
     public void showRefreshData(List<TweetBean> list) {
-        mAdapter.addData(list);
-        mAdapter.notifyDataSetChanged();
+        mSwipeRefreshLayout.setRefreshing(false);
+        if(!list.isEmpty()){
+            mAdapter.addData(list);
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
-    public void showLoadMoreData() {
-
+    public void showLoadMoreData(List<TweetBean> list) {
+        mSwipeRefreshLayout.setRefreshing(false);
+        if(!list.isEmpty()){
+            mAdapter.addData(list);
+            mAdapter.notifyDataSetChanged();
+        }else {
+            ToastUtil.show("没有内容了(┬＿┬)");
+        }
     }
 
     @Override
@@ -100,15 +110,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refresh();
+                loadMore();
             }
         });
     }
 
-    private void refresh() {
-    }
 
     private void loadMore() {
+        mSwipeRefreshLayout.setRefreshing(true);
+        mPresenter.loadMoreData(5);
     }
 
     private void setData(boolean isRefresh, List data) {

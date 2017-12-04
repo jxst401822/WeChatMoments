@@ -55,5 +55,15 @@ public class ImplPreferencesHelper implements PreferencesHelper {
         mSPrefs.edit().putBoolean(Constants.SP_AUTO_CACHE, state).apply();
     }
 
+    @Override
+    public String getLoginId() {
+        return mSPrefs.getString(Constants.SP_LOGIN_ID, "");
+    }
+
+    @Override
+    public void setLoginId(String loginId) {
+        mSPrefs.edit().putString(Constants.SP_LOGIN_ID, loginId).apply();
+    }
+
 
 }

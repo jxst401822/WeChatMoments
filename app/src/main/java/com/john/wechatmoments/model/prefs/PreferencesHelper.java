@@ -15,4 +15,7 @@ public interface PreferencesHelper {
 
     void setAutoCacheState(boolean state);
 
+    String  getLoginId();
+
+    void setLoginId(String loginId);
 }

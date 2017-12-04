@@ -4,6 +4,7 @@ import com.john.wechatmoments.R;
 import com.john.wechatmoments.app.Constants;
 import com.john.wechatmoments.base.RxPresenter;
 import com.john.wechatmoments.base.contract.WelcomeContract;
+import com.john.wechatmoments.model.bean.TweetBean;
 import com.john.wechatmoments.model.bean.UserBean;
 import com.john.wechatmoments.model.bean.WelcomeBean;
 import com.john.wechatmoments.model.db.RealmHelper;
@@ -12,6 +13,8 @@ import com.john.wechatmoments.model.prefs.ImplPreferencesHelper;
 import com.john.wechatmoments.util.RxUtil;
 import com.john.wechatmoments.widget.CommonSubscriber;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -66,6 +69,10 @@ public class WelcomePresenter extends RxPresenter<WelcomeContract.View> implemen
                     @Override
                     public void accept(Long aLong) {
                         jumpToMain();
+//                        if (mReferencesHelper.getLoginId().isEmpty()) {
+//                        } else {
+//                            mView.jumpToMain();
+//                        }
                     }
                 })
         );
@@ -84,7 +91,6 @@ public class WelcomePresenter extends RxPresenter<WelcomeContract.View> implemen
                     }
                 })
         );
-
 
     }
 

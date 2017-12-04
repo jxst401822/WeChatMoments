@@ -261,4 +261,10 @@ public class RealmHelper implements DBHelper {
         return (List<RealmObject>) query.findAll();
     }
 
+    @Override
+    public List<RealmObject> tQueryAll(Class<? extends RealmObject> clazz) {
+        RealmQuery<? extends RealmObject> query = mRealm.where(clazz);
+        return (List<RealmObject>) query.findAll();
+    }
+
 }
