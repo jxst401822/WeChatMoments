@@ -65,5 +65,15 @@ public class ImplPreferencesHelper implements PreferencesHelper {
         mSPrefs.edit().putString(Constants.SP_LOGIN_ID, loginId).apply();
     }
 
+    @Override
+    public void setPosition(int position) {
+        mSPrefs.edit().putInt(Constants.SP_POSITION, position).apply();
+    }
+
+    @Override
+    public int getPosition() {
+        return mSPrefs.getInt(Constants.SP_POSITION, 0);
+    }
+
 
 }

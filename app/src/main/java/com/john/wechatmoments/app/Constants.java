@@ -26,6 +26,8 @@ public class Constants {
 
     public static final String SP_LOGIN_ID = "login_id";
 
+    public static final String SP_POSITION = "position";
+
     //================= PATH ====================
 
     public static final String PATH_DATA = App.getInstance().getCacheDir().getAbsolutePath() + File.separator + "data";
@@ -34,9 +36,9 @@ public class Constants {
 
     public static final String PATH_SDCARD = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "John" + File.separator + "WeChatMoments";
 
-    //================= UserBean ====================
-    public static UserBean userBean;
-    public static List<TweetBean> tweetBeanList = new ArrayList<>();
-    public static int position = 0;
+    //================= ACHE ====================
+    public static final String ACHE_USER = "user_info";
+
+    public static final String ACHE_TWEETS = "tweets";
 
 }

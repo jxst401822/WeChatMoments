@@ -5,10 +5,12 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.john.wechatmoments.R;
 import com.john.wechatmoments.model.bean.TweetBean.CommentsBean;
 
+import java.util.List;
+
 public class MomentAdapter extends BaseQuickAdapter<CommentsBean, BaseViewHolder> {
 
-    public MomentAdapter() {
-        super(R.layout.item_comment, null);
+    public MomentAdapter(List<CommentsBean> commentsBeans) {
+        super(R.layout.item_comment, commentsBeans);
     }
 
 

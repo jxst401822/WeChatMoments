@@ -2,13 +2,14 @@ package com.john.wechatmoments.model.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by John on 2017/12/4.
  */
 
-public class TweetBean {
+public class TweetBean implements Serializable {
 
     /**
      * content : 沙发！
@@ -73,7 +74,7 @@ public class TweetBean {
         this.comments = comments;
     }
 
-    public static class SenderBean {
+    public static class SenderBean implements Serializable{
         /**
          * username : jport
          * nick : Joe Portman
@@ -109,7 +110,7 @@ public class TweetBean {
         }
     }
 
-    public static class ImagesBean {
+    public static class ImagesBean implements Serializable{
         /**
          * url : https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRDy7HZaHxn15wWj6pXE4uMKAqHTC_uBgBlIzeeQSj2QaGgUzUmHg
          */
@@ -125,7 +126,7 @@ public class TweetBean {
         }
     }
 
-    public static class CommentsBean {
+    public static class CommentsBean implements Serializable{
         /**
          * content : Good.
          * sender : {"username":"outman","nick":"Super hero","avatar":"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRJm8UXZ0mYtjv1a48RKkFkdyd4kOWLJB0o_l7GuTS8-q8VF64w"}
@@ -150,7 +151,7 @@ public class TweetBean {
             this.sender = sender;
         }
 
-        public static class SenderBeanX {
+        public static class SenderBeanX implements Serializable{
             /**
              * username : outman
              * nick : Super hero

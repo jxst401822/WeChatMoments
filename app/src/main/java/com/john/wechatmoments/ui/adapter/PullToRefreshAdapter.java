@@ -25,25 +25,23 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<TweetBean, BaseViewHo
 
     @Override
     protected void convert(BaseViewHolder helper, TweetBean item) {
-        ImageLoader.load(mContext, item.getSender().getAvatar(), (ImageView) helper.getView(R.id.iv_sender_avatar),R.drawable.ic_avatar);
+        ImageLoader.load(mContext, item.getSender().getAvatar(), (ImageView) helper.getView(R.id.iv_sender_avatar), R.drawable.ic_avatar);
         helper.setText(R.id.tv_nick, item.getSender().getNick());
         helper.setText(R.id.tv_content, item.getContent());
         NineGridTestLayout layout = helper.getView(R.id.layout_nine_grid);
         layout.setIsShowAll(true);
         layout.setUrlList(getUrlList(item.getImages()));
-        if(item.getComments() != null){
-            mMomentAdapter = new MomentAdapter();
+        if (item.getComments() != null) {
+            mMomentAdapter = new MomentAdapter(item.getComments());
             mMomentRecyclerView = helper.getView(R.id.rv_moments);
             mMomentRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
             mMomentRecyclerView.setAdapter(mMomentAdapter);
-            mMomentAdapter.addData(item.getComments());
-            mMomentAdapter.notifyDataSetChanged();
         }
     }
 
     private List<String> getUrlList(List<ImagesBean> list) {
         List<String> urlList = new ArrayList<>();
-        if(list != null){
+        if (list != null) {
             for (ImagesBean imagesBean : list) {
                 urlList.add(imagesBean.getUrl());
             }

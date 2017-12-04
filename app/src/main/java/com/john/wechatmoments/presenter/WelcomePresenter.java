@@ -1,9 +1,11 @@
 package com.john.wechatmoments.presenter;
 
 import com.john.wechatmoments.R;
+import com.john.wechatmoments.app.App;
 import com.john.wechatmoments.app.Constants;
 import com.john.wechatmoments.base.RxPresenter;
 import com.john.wechatmoments.base.contract.WelcomeContract;
+import com.john.wechatmoments.component.ACache;
 import com.john.wechatmoments.model.bean.TweetBean;
 import com.john.wechatmoments.model.bean.UserBean;
 import com.john.wechatmoments.model.bean.WelcomeBean;
@@ -64,17 +66,17 @@ public class WelcomePresenter extends RxPresenter<WelcomeContract.View> implemen
 
     private void startCountDown() {
         addSubscribe(Flowable.timer(COUNT_DOWN_TIME, TimeUnit.MILLISECONDS)
-                .compose(RxUtil.<Long>rxSchedulerHelper())
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(Long aLong) {
-                        jumpToMain();
+                        .compose(RxUtil.<Long>rxSchedulerHelper())
+                        .subscribe(new Consumer<Long>() {
+                            @Override
+                            public void accept(Long aLong) {
+                                jumpToMain();
 //                        if (mReferencesHelper.getLoginId().isEmpty()) {
 //                        } else {
 //                            mView.jumpToMain();
 //                        }
-                    }
-                })
+                            }
+                        })
         );
     }
 
@@ -86,7 +88,8 @@ public class WelcomePresenter extends RxPresenter<WelcomeContract.View> implemen
                 .subscribeWith(new CommonSubscriber<UserBean>(mView) {
                     @Override
                     public void onNext(UserBean userBean) {
-                        Constants.userBean = userBean;
+                        ACache.get(App.getInstance().getApplicationContext()).put(Constants.ACHE_USER, userBean);
+                        mReferencesHelper.setPosition(0);
                         mView.jumpToMain();
                     }
                 })

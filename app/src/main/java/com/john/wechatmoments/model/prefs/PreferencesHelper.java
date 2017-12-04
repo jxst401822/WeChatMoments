@@ -18,4 +18,8 @@ public interface PreferencesHelper {
     String  getLoginId();
 
     void setLoginId(String loginId);
+
+    void setPosition(int position);
+
+    int getPosition();
 }

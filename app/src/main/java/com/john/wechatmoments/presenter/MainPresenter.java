@@ -1,9 +1,11 @@
 package com.john.wechatmoments.presenter;
 
 import com.google.gson.Gson;
+import com.john.wechatmoments.app.App;
 import com.john.wechatmoments.app.Constants;
 import com.john.wechatmoments.base.RxPresenter;
 import com.john.wechatmoments.base.contract.MainContract;
+import com.john.wechatmoments.component.ACache;
 import com.john.wechatmoments.model.bean.TweetBean;
 import com.john.wechatmoments.model.db.RealmHelper;
 import com.john.wechatmoments.model.http.RetrofitHelper;
@@ -78,15 +80,8 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
 
     @Override
     public void loadMoreData(int count) {
-        List<TweetBean> tweetBeans = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            if (Constants.position == Constants.tweetBeanList.size()) {
-                break;
-            }
-            tweetBeans.add(Constants.tweetBeanList.get(Constants.position));
-            Constants.position++;
-        }
-        mView.showLoadMoreData(tweetBeans);
+        ArrayList<TweetBean> tweetBeanList = (ArrayList<TweetBean>) ACache.get(App.getInstance().getApplicationContext()).getAsObject(Constants.ACHE_TWEETS);
+        mView.showLoadMoreData(getTweetData(tweetBeanList, count));
     }
 
     @Override
@@ -97,6 +92,7 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                 .subscribeWith(new CommonSubscriber<List<TweetBean>>(mView) {
                     @Override
                     public void onNext(List<TweetBean> list) {
+                        mReferencesHelper.setPosition(0);
                         List<TweetBean> errorTweetBeans = new ArrayList<>();
                         for (TweetBean tweetBean : list) {
                             if (tweetBean.getError() != null || tweetBean.getContent() == null || tweetBean.get_$UnknownError287() != null) {
@@ -104,21 +100,28 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                             }
                         }
                         list.removeAll(errorTweetBeans);
-                        Constants.tweetBeanList.addAll(list);
+                        ArrayList<TweetBean> tweetList = new ArrayList<>();
+                        tweetList.addAll(list);
+                        ACache.get(App.getInstance().getApplicationContext()).put(Constants.ACHE_TWEETS, tweetList);
                         mReferencesHelper.setLoginId("jsmith");
-                        List<TweetBean> tweetBeans = new ArrayList<>();
-                        tweetBeans.addAll(Constants.tweetBeanList);
-//                        for (int i = 0; i < count; i++) {
-//                            if (Constants.position == Constants.tweetBeanList.size() - 1) {
-//                                break;
-//                            }
-//                            tweetBeans.add(Constants.tweetBeanList.get(Constants.position));
-//                            Constants.position++;
-//                        }
-                        mView.showRefreshData(tweetBeans);
+                        mView.showRefreshData(getTweetData(tweetList, count));
                     }
                 })
         );
 
+    }
+
+    private List<TweetBean> getTweetData(List<TweetBean> tweetBeanList, int count) {
+        int position = mReferencesHelper.getPosition();
+        List<TweetBean> tweetBeans = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            if (position == tweetBeanList.size()) {
+                break;
+            }
+            tweetBeans.add(tweetBeanList.get(position));
+            position++;
+        }
+        mReferencesHelper.setPosition(position);
+        return tweetBeans;
     }
 }
