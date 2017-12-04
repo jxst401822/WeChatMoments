@@ -107,13 +107,14 @@ public class MainPresenter extends RxPresenter<MainContract.View> implements Mai
                         Constants.tweetBeanList.addAll(list);
                         mReferencesHelper.setLoginId("jsmith");
                         List<TweetBean> tweetBeans = new ArrayList<>();
-                        for (int i = 0; i < count; i++) {
-                            if (Constants.position == Constants.tweetBeanList.size() - 1) {
-                                break;
-                            }
-                            tweetBeans.add(Constants.tweetBeanList.get(Constants.position));
-                            Constants.position++;
-                        }
+                        tweetBeans.addAll(Constants.tweetBeanList);
+//                        for (int i = 0; i < count; i++) {
+//                            if (Constants.position == Constants.tweetBeanList.size() - 1) {
+//                                break;
+//                            }
+//                            tweetBeans.add(Constants.tweetBeanList.get(Constants.position));
+//                            Constants.position++;
+//                        }
                         mView.showRefreshData(tweetBeans);
                     }
                 })

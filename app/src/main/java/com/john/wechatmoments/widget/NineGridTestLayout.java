@@ -2,9 +2,11 @@ package com.john.wechatmoments.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
+import com.john.wechatmoments.R;
 import com.john.wechatmoments.component.ImageLoader;
 
 import java.util.List;
@@ -40,7 +42,11 @@ public class NineGridTestLayout extends NineGridLayout {
             @Override
             public void subscribe(ObservableEmitter<Bitmap> emitter) throws Exception {
                 Bitmap bitmap = ImageLoader.getBitmap(mContext, url, imageView);
-                emitter.onNext(bitmap);
+                if (bitmap != null) {
+                    emitter.onNext(bitmap);
+                } else {
+                    emitter.onComplete();
+                }
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Bitmap>() {
             @Override
@@ -68,7 +74,7 @@ public class NineGridTestLayout extends NineGridLayout {
 
     @Override
     protected void displayImage(RatioImageView imageView, String url) {
-        ImageLoader.load(mContext, url, imageView);
+        ImageLoader.load(mContext, url, imageView,R.drawable.ic_picture);
     }
 
     @Override

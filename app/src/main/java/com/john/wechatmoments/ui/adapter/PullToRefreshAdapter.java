@@ -25,7 +25,7 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<TweetBean, BaseViewHo
 
     @Override
     protected void convert(BaseViewHolder helper, TweetBean item) {
-        ImageLoader.load(mContext, item.getSender().getAvatar(), (ImageView) helper.getView(R.id.iv_sender_avatar));
+        ImageLoader.load(mContext, item.getSender().getAvatar(), (ImageView) helper.getView(R.id.iv_sender_avatar),R.drawable.ic_avatar);
         helper.setText(R.id.tv_nick, item.getSender().getNick());
         helper.setText(R.id.tv_content, item.getContent());
         NineGridTestLayout layout = helper.getView(R.id.layout_nine_grid);
@@ -43,8 +43,10 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<TweetBean, BaseViewHo
 
     private List<String> getUrlList(List<ImagesBean> list) {
         List<String> urlList = new ArrayList<>();
-        for (ImagesBean imagesBean : list) {
-            urlList.add(imagesBean.getUrl());
+        if(list != null){
+            for (ImagesBean imagesBean : list) {
+                urlList.add(imagesBean.getUrl());
+            }
         }
         return urlList;
     }

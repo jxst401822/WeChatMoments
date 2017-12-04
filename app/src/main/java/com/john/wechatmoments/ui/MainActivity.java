@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void showRefreshData(List<TweetBean> list) {
         mSwipeRefreshLayout.setRefreshing(false);
-        if(!list.isEmpty()){
+        if (!list.isEmpty()) {
             mAdapter.addData(list);
             mAdapter.notifyDataSetChanged();
         }
@@ -65,11 +65,14 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     public void showLoadMoreData(List<TweetBean> list) {
         mSwipeRefreshLayout.setRefreshing(false);
-        if(!list.isEmpty()){
+        if (!list.isEmpty()) {
             mAdapter.addData(list);
             mAdapter.notifyDataSetChanged();
-        }else {
+        } else {
             ToastUtil.show("没有内容了(┬＿┬)");
+        }
+        if (mRecyclerView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE || (mRecyclerView.isComputingLayout() == false)) {
+            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -83,7 +86,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                loadMore();
+//                loadMore();
             }
         });
         mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
@@ -101,8 +104,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     private void addHeadView(UserBean userBean) {
         View headView = getLayoutInflater().inflate(R.layout.head_view, (ViewGroup) mRecyclerView.getParent(), false);
         ((TextView) headView.findViewById(R.id.tv_username)).setText(userBean.getNick());
-//        ImageLoader.load(this, userBean.getProfileimage(), (ImageView) headView.findViewById(R.id.iv_mtopimg));
-        ImageLoader.load(this, userBean.getAvatar(), (ImageView) headView.findViewById(R.id.siv_img));
+        ImageLoader.load(this, userBean.getProfileimage(), (ImageView) headView.findViewById(R.id.iv_mtopimg),R.drawable.m_top_img);
+        ImageLoader.load(this, userBean.getAvatar(), (ImageView) headView.findViewById(R.id.siv_img), R.drawable.ic_avatar);
         mAdapter.addHeaderView(headView);
     }
 
@@ -110,7 +113,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadMore();
+//                loadMore();
             }
         });
     }
