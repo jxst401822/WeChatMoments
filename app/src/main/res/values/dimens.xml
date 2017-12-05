@@ -17,6 +17,7 @@
     <dimen name="dip215">215dip</dimen>
     <dimen name="head_img">50.0dip</dimen>
     <!-- 通用布局尺寸 -->
+    <dimen name="dp1">1dp</dimen>
     <dimen name="dp3">3dp</dimen>
     <dimen name="dp5">5dp</dimen>
     <dimen name="dp10">10dp</dimen>

@@ -40,7 +40,7 @@ public class ImageLoader {
         }
     }
 
-    public static Bitmap getBitmap(Context context, String url, ImageView iv) {    //不缓存，全部从网络加载
+    public static Bitmap getBitmap(Context context, String url, ImageView iv) {
         Bitmap bitmap = null;
         if (!App.getAppComponent().preferencesHelper().getNoImageState()) {
             try {

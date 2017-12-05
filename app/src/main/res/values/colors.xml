@@ -7,4 +7,5 @@
 
     <color name="toast_bg">#dddfe0</color>
     <color name="bg">#F0F0F0</color>
+    <color name="divider_line">#919191</color>
 </resources>
